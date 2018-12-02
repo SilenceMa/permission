@@ -7,10 +7,14 @@ public class LevelUtil {
 
     public static final String ROOT = "0";
 
-    public static String calculateLevel(String parentLevel, int parentId) {
-        if (StringUtils.isBlank(parentLevel)){
+    public static String calculateLevel(String parentLevel, int parentId)
+    {
+        if (StringUtils.isBlank(parentLevel))
+        {
             return ROOT;
-        }else {
+        }
+        else
+        {
             return StringUtils.join(parentLevel,SEPARATOR,parentId);
         }
     }
