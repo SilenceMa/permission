@@ -29,9 +29,9 @@ public class SysTreeService {
 
         List<DeptLevelDto> dtoList = Lists.newArrayList();
 
-        for (SysDept dept : dtoList) {
+        for (SysDept dept : deptList) {
             DeptLevelDto dto = DeptLevelDto.adapt(dept);
-            deptList.add(dto);
+            dtoList.add(dto);
         }
 
         return deptListToTree(dtoList);
@@ -42,16 +42,18 @@ public class SysTreeService {
             return Lists.newArrayList();
         }
         //这里的 Multimap-->Map<String,list<DeptLevelDto>>
-        Multimap<String, DeptLevelDto> levelDeptmap = ArrayListMultimap.create();
+        Multimap<String, DeptLevelDto> leveldeptmap = ArrayListMultimap.create();
         List<DeptLevelDto> rootList = Lists.newArrayList();
 
         // 将数据中查询粗来的部门集合转换为levelDeptmap
         for (DeptLevelDto dto : deptLevelDtoList) {
-            levelDeptmap.put(dto.getLevel(), dto);
+            leveldeptmap.put(dto.getLevel(), dto);
             if (LevelUtil.ROOT.equals(dto.getLevel())) {
                 rootList.add(dto);
             }
         }
+
+        //根据seq从小到大开始排序
 
         //对根节点的数据进行排序
         Collections.sort(rootList, new Comparator<DeptLevelDto>() {
@@ -62,11 +64,14 @@ public class SysTreeService {
         });
 
         //递归生成树
-        transformDeptTree(rootList,LevelUtil.ROOT,levelDeptmap);
+        transformDeptTree(rootList,LevelUtil.ROOT,leveldeptmap);
 
         return rootList;
     }
 
+    // level:0, 0, all 0->0.1,0.2
+    // level:0.1
+    // level:0.2
     public void transformDeptTree(List<DeptLevelDto> deptLevelList, String level, Multimap<String, DeptLevelDto> levelDeptmap) {
         for (int i = 0; i < deptLevelList.size(); i++) {
             //循环遍历该层的每个元素

@@ -11,10 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/sys/dept")
 @Slf4j
 public class SysDeptController {
@@ -25,7 +26,7 @@ public class SysDeptController {
     @Autowired
     private SysTreeService sysTreeService;
 
-    @PostMapping(value = "/dept.json")
+    @PostMapping(value = "/save.json")
     public JsonData saveDept(DeptParam param){
         deptService.save(param);
         return JsonData.success();
@@ -35,5 +36,11 @@ public class SysDeptController {
     public JsonData tree(){
         List<DeptLevelDto> dtoList = sysTreeService.deptTree();
         return JsonData.success(dtoList);
+    }
+
+    @PostMapping("/update.json")
+    public JsonData updateDept(DeptParam param){
+        deptService.update(param);
+        return JsonData.success();
     }
 }
