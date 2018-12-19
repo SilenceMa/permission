@@ -7,7 +7,6 @@ import com.mpf.permission.service.SysDeptService;
 import com.mpf.permission.service.SysTreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,20 +26,24 @@ public class SysDeptController {
     private SysTreeService sysTreeService;
 
     @PostMapping(value = "/save.json")
-    public JsonData saveDept(DeptParam param){
+    public JsonData saveDept(DeptParam param)
+    {
         deptService.save(param);
         return JsonData.success();
     }
 
     @GetMapping(value = "/tree.json")
-    public JsonData tree(){
+    public JsonData tree()
+    {
         List<DeptLevelDto> dtoList = sysTreeService.deptTree();
         return JsonData.success(dtoList);
     }
 
     @PostMapping("/update.json")
-    public JsonData updateDept(DeptParam param){
+    public JsonData updateDept(DeptParam param)
+    {
         deptService.update(param);
         return JsonData.success();
     }
+
 }

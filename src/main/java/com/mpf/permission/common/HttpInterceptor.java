@@ -46,5 +46,10 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
         long startTime  = (long) request.getAttribute(START_TIME);
 
         log.info("request completed cost {} ms",endTime-startTime);
+        removeThreadLocalInfo();
+    }
+
+    public void removeThreadLocalInfo(){
+        RequestHolder.remove();
     }
 }
