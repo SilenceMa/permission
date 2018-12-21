@@ -23,11 +23,14 @@ public class LoginFilter implements Filter {
         String servletPath = request.getServletPath();
         SysUser user = (SysUser) request.getSession().getAttribute("user");
 
-        if (user == null){
+        if (user == null)
+        {
             String path = "/signin.jsp";
             response.sendRedirect(path);
             return;
-        }else {
+        }
+        else
+        {
             RequestHolder.add(user);
             RequestHolder.add(request);
         }
